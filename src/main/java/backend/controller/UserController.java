@@ -1,6 +1,7 @@
 package backend.controller;
 
 import backend.dto.ResponseDto;
+import backend.entity.UserEntity;
 import backend.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseDto login(String username, String password) {
-        return new ResponseDto(0, "success", userService.login(username, password));
+    public ResponseDto<UserEntity> login(String username, String password) {
+        return ResponseDto.success(userService.login(username, password));
     }
 }
