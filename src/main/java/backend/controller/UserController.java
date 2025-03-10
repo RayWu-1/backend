@@ -17,7 +17,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseDto<UserEntity> login(String username, String password) {
-        return ResponseDto.success(userService.login(username, password));
+    public ResponseDto<UserEntity> login(String email, String password) {
+        return ResponseDto.success(userService.login(email, password));
     }
 }
