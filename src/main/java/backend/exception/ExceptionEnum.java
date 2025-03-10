@@ -11,7 +11,7 @@ public enum ExceptionEnum {
 
     USER_NOT_FOUND(2001, "User not found"),
     WRONG_PASSWORD(2002, "Wrong password");
-
+    
     private final Integer code;
     private final String message;
 }

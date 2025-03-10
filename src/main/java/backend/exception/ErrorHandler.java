@@ -13,14 +13,14 @@ public class ErrorHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ResponseDto<Void> exceptionHandler(Exception e) {
-        log.error("Unknown Error: " + e.getMessage());
-        return ResponseDto.error(1000, "Unknown Error");
+        System.out.println("Unknown Error: " + e);
+        return new ResponseDto<Void>(1000, "Unknown Error: " + e.getMessage(), null);
     }
 
     @ExceptionHandler(value = BusinessException.class)
     @ResponseBody
     public ResponseDto<Void> exceptionHandler(BusinessException e) {
-        log.error("Business Exception: " + e.getMessage());
-        return ResponseDto.error(e.getCode(), "Error: " + e.getMessage());
+        System.out.println("Business Exception: " + e);
+        return new ResponseDto<Void>(e.getCode(), "Error: " + e.getMessage(), null);
     }
 }

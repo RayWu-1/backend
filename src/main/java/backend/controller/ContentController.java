@@ -33,7 +33,7 @@ public class ContentController {
 
             if (pageNumber < 0 || pageSize <= 0) {
                 log.warn("Invalid pagination parameters: page={}, size={}", page, size);
-                throw new BusinessException(ExceptionEnum.INVALID_ENTRY);
+                throw new BusinessException(ExceptionEnum.ILLEGAL_PARAMETERS);
             }
 
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
@@ -41,7 +41,7 @@ public class ContentController {
             return ResponseDto.success(contentService.getContentList(pageable));
         } catch (NumberFormatException e) {
             log.warn("Pagination parameters are not numbers: page={}, size={}", page, size);
-            throw new BusinessException(ExceptionEnum.INVALID_ENTRY_TYPE);
+            throw new BusinessException(ExceptionEnum.ILLEGAL_PARAMETERS);
         }
     }
 
