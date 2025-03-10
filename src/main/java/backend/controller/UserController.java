@@ -5,7 +5,6 @@ import backend.entity.UserEntity;
 import backend.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,9 +17,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseDto<UserEntity> login(@RequestParam String username,
-            @RequestParam String password) {
-        UserEntity user = userService.login(username, password);
-        return ResponseDto.success(user);
+    public ResponseDto<UserEntity> login(String username, String password) {
+        return ResponseDto.success(userService.login(username, password));
+    }
+    @PostMapping("/count")
+    public ResponseDto<Long> count() {
+        return ResponseDto.success(userService.getNumberOfCreators());
     }
 }
