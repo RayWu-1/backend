@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(ExceptionEnum.USER_NOT_FOUND);
         }
     }
-
-    public long getNumberOfCreators() {
+    @Override
+    public Long getNumberOfCreators() {
         return userRepository.count();
     }
 }

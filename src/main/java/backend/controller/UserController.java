@@ -20,4 +20,8 @@ public class UserController {
     public ResponseDto<UserEntity> login(String username, String password) {
         return ResponseDto.success(userService.login(username, password));
     }
+    @PostMapping("/count")
+    public ResponseDto<Long> count() {
+        return ResponseDto.success(userService.getNumberOfCreators());
+    }
 }

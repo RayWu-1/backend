@@ -6,4 +6,5 @@ public interface UserService {
 
     UserEntity login(String email, String password);
 
+    Long getNumberOfCreators();
 }
