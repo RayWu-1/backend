@@ -27,7 +27,4 @@ public class ResponseDto<T> {
         return new ResponseDto<>(data);
     }
 
-    public static ResponseDto<Void> error(Integer code, String message) {
-        return new ResponseDto<>(code, message, null);
-    }
 }

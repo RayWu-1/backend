@@ -7,24 +7,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "users")
 @Data
-@NoArgsConstructor
-public class UserEntity {
+@Entity
+@Table(name = "images")
+public class ImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(unique = true)
-    private String email;
+    @Column(nullable = false)
+    private FileEntity file;
 
-    private String password;
-
-    public UserEntity(String email, String password) {
-        this.password = password;
-        this.email = email;
-    }
+    private Integer width;
+    private Integer height;
 }
