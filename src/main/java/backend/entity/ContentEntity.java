@@ -15,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -43,6 +45,15 @@ public class ContentEntity {
     @ManyToMany
     @JoinTable(name = "content_tag_rel", joinColumns = @JoinColumn(name = "content_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     Set<TagEntity> tags;
+
+    @OneToMany(mappedBy = "content")
+    Set<ImageEntity> images;
+
+    @OneToOne(mappedBy = "content")
+    AudioEntity audio;
+
+    @OneToOne(mappedBy = "content")
+    VideoEntity video; 
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
