@@ -10,8 +10,8 @@ public enum ExceptionEnum {
     ILLEGAL_PARAMETERS(1002, "Illegal Parameters"),
 
     USER_NOT_FOUND(2001, "User not found"),
-    WRONG_PASSWORD(2002, "Wrong password");
-    
+    WRONG_PASSWORD(2002, "Wrong password"),
+    CONTENT_NOT_FOUND(2003, "Content not found");
     private final Integer code;
     private final String message;
 }
