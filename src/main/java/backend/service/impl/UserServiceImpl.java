@@ -20,15 +20,17 @@ public class UserServiceImpl implements UserService {
         if (email == null || password == null) {
             throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
         }
-        try {
-            UserEntity user = userRepository.findByEmail(email);
-            if (user.getPassword().equals(password)) {
-                return user;
-            } else {
-                throw new BusinessException(ExceptionEnum.WRONG_PASSWORD);
-            }
-        } catch (Exception e) {
+
+        UserEntity user = userRepository.findByEmail(email);
+        if (user == null) {
             throw new BusinessException(ExceptionEnum.USER_NOT_FOUND);
         }
+
+        if (user.getPassword().equals(password)) {
+            return user;
+        } else {
+            throw new BusinessException(ExceptionEnum.WRONG_PASSWORD);
+        }
+
     }
 }
