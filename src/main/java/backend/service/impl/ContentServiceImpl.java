@@ -25,6 +25,7 @@ public class ContentServiceImpl implements ContentService {
     public void deleteContent(Long id) {
         ContentEntity content = contentRepository.findById(id).orElseThrow(() -> new RuntimeException(ExceptionEnum.CONTENT_NOT_FOUND.getMessage()));
         content.setStatus(backend.entity.enums.ContentStatus.DRAFT);
+        contentRepository.save(content);
     }
 
 }

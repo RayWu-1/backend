@@ -1,7 +1,8 @@
 package backend.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import backend.entity.enums.ContentStatus;
+import backend.repository.ContentRepository;
+import org.springframework.web.bind.annotation.*;
 
 import backend.dto.AudioDto;
 import backend.dto.ContentDto;
@@ -23,8 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @RestController
@@ -33,6 +32,8 @@ public class ContentController {
 
     @Autowired
     private ContentService contentService;
+    @Autowired
+    private ContentRepository contentRepository;
 
     @GetMapping("/list")
     public ResponseDto<Page<ContentDto>> getContentList(@RequestParam String page, @RequestParam String size) {
@@ -76,6 +77,15 @@ public class ContentController {
             log.warn("Pagination parameters are not numbers: page={}, size={}", page, size);
             throw new BusinessException(ExceptionEnum.ILLEGAL_PARAMETERS);
         }
+    }
+    @GetMapping("/delete/{id}")
+    public ResponseDto<Void> deleteContent(@PathVariable Long id) {
+        ContentEntity content = contentRepository.findById(id).orElseThrow(() -> new RuntimeException(ExceptionEnum.CONTENT_NOT_FOUND.getMessage()));
+        if(content.getStatus() == ContentStatus.PUBLISHED) {
+            contentRepository.deleteById(id);
+            return ResponseDto.success();
+        }
+        throw new RuntimeException(ExceptionEnum.IS_NOT_PUBLISHED.getMessage());
     }
 
 }
