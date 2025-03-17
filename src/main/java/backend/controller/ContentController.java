@@ -4,6 +4,7 @@ import backend.entity.enums.ContentStatus;
 import backend.repository.ContentRepository;
 import org.springframework.web.bind.annotation.*;
 
+import backend.dto.AddTagToContentDto;
 import backend.dto.AudioDto;
 import backend.dto.ContentDto;
 import backend.dto.ImageDto;
@@ -68,8 +69,10 @@ public class ContentController {
                         contentEntity.getCreatedBy().getId(),
                         contentEntity.getTags(),
                         images,
-                        audioEntity == null ? null : new AudioDto(audioEntity.getDuration(), audioEntity.getFile().getPath()),
-                        videoEntity == null ? null : new VideoDto(videoEntity.getDuration(), videoEntity.getFile().getPath()),
+                        audioEntity == null ? null
+                                : new AudioDto(audioEntity.getDuration(), audioEntity.getFile().getPath()),
+                        videoEntity == null ? null
+                                : new VideoDto(videoEntity.getDuration(), videoEntity.getFile().getPath()),
                         contentEntity.getStartTime(),
                         contentEntity.getEndTime());
             }));
@@ -78,14 +81,29 @@ public class ContentController {
             throw new BusinessException(ExceptionEnum.ILLEGAL_PARAMETERS);
         }
     }
+
     @GetMapping("/delete/{id}")
     public ResponseDto<Void> deleteContent(@PathVariable Long id) {
-        ContentEntity content = contentRepository.findById(id).orElseThrow(() -> new RuntimeException(ExceptionEnum.CONTENT_NOT_FOUND.getMessage()));
-        if(content.getStatus() == ContentStatus.PUBLISHED) {
+        ContentEntity content = contentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(ExceptionEnum.CONTENT_NOT_FOUND.getMessage()));
+        if (content.getStatus() == ContentStatus.PUBLISHED) {
             contentRepository.deleteById(id);
             return ResponseDto.success();
         }
         throw new RuntimeException(ExceptionEnum.IS_NOT_PUBLISHED.getMessage());
+    }
+
+    @PostMapping("/{contentId}/tags")
+    public ResponseDto<Void> addTagToContent(@PathVariable Long contentId, @RequestBody AddTagToContentDto request) {
+        Long tagId = request.getTagId();
+
+        if (contentId == null || tagId == null) {
+            throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
+        }
+
+        contentService.addTagToContent(contentId, tagId);
+
+        return ResponseDto.success();
     }
 
 }
