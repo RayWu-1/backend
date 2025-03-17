@@ -82,7 +82,7 @@ public class ContentController {
     public ResponseDto<Void> deleteContent(@PathVariable Long id) {
         ContentEntity content = contentRepository.findById(id).orElseThrow(() -> new RuntimeException(ExceptionEnum.CONTENT_NOT_FOUND.getMessage()));
         if(content.getStatus() == ContentStatus.PUBLISHED) {
-            contentRepository.deleteById(id);
+            contentService.deleteContent(id);
             return ResponseDto.success();
         }
         throw new RuntimeException(ExceptionEnum.IS_NOT_PUBLISHED.getMessage());
