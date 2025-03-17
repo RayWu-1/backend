@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import backend.entity.enums.ContentStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,6 +46,8 @@ public class ContentEntity {
     @ManyToMany
     @JoinTable(name = "content_tag_rel", joinColumns = @JoinColumn(name = "content_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     Set<TagEntity> tags;
+
+    ContentStatus status;
 
     @OneToMany(mappedBy = "content")
     Set<ImageEntity> images;
