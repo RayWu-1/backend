@@ -106,4 +106,15 @@ public class ContentController {
         return ResponseDto.success();
     }
 
+    @DeleteMapping("/{contentId}/tags/{tagId}")
+    public ResponseDto<Void> deleteTagFromContent(@PathVariable Long contentId, @PathVariable Long tagId) {
+        if (contentId == null || tagId == null) {
+            throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
+        }
+
+        contentService.deleteTagFromContent(contentId, tagId);
+
+        return ResponseDto.success();
+    }
+
 }

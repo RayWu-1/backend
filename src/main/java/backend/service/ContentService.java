@@ -11,4 +11,6 @@ public interface ContentService {
     void deleteContent(Long id);
 
     void addTagToContent(Long contentId, Long tagId);
+
+    void deleteTagFromContent(Long contentId, Long tagId);
 }

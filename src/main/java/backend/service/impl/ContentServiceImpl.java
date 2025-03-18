@@ -46,4 +46,19 @@ public class ContentServiceImpl implements ContentService {
         contentRepository.save(content);
     }
 
+    @Override
+    public void deleteTagFromContent(Long contentId, Long tagId) {
+        ContentEntity content = contentRepository.findById(contentId)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.CONTENT_NOT_FOUND));
+        TagEntity tag = tagRepository.findById(tagId)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND));
+
+        if (!content.getTags().contains(tag)) {
+            throw new BusinessException(ExceptionEnum.TAG_NOT_FOUND);
+        }
+
+        content.getTags().remove(tag);
+        contentRepository.save(content);
+    }
+
 }
