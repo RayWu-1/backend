@@ -83,7 +83,7 @@ public class ContentController {
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @PatchMapping("/{id}/delete")
     public ResponseDto<Void> deleteContent(@PathVariable Long id) {
         ContentEntity content = contentRepository.findById(id).orElseThrow(() -> new RuntimeException(ExceptionEnum.CONTENT_NOT_FOUND.getMessage()));
         if(content.getStatus() == ContentStatus.PUBLISHED) {
