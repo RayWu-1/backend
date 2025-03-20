@@ -22,7 +22,7 @@ public class UserController {
         return ResponseDto.success(userService.login(username, password));
     }
     @GetMapping("/count")
-    public ResponseDto<Long> count() {
-        return ResponseDto.success(userService.getNumberOfCreators());
+    public Long count() {
+        return userService.getNumberOfCreators();
     }
 }
