@@ -1,5 +1,7 @@
 package backend.service;
 
+import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +15,6 @@ public interface ContentService {
     void addTagToContent(Long contentId, Long tagId);
 
     void deleteTagFromContent(Long contentId, Long tagId);
+    
+    void updateTagsForContent(Long contentId, Set<Long> tagIds);
 }

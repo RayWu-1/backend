@@ -1,5 +1,8 @@
 package backend.service.impl;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,6 +61,20 @@ public class ContentServiceImpl implements ContentService {
         }
 
         content.getTags().remove(tag);
+        contentRepository.save(content);
+    }
+
+    @Override
+    public void updateTagsForContent(Long contentId, Set<Long> tagIds) {
+        ContentEntity content = contentRepository.findById(contentId)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.CONTENT_NOT_FOUND));
+
+        Set<TagEntity> tags = tagIds.stream()
+                .map(tagId -> tagRepository.findById(tagId)
+                        .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND)))
+                .collect(Collectors.toSet());
+
+        content.setTags(tags);
         contentRepository.save(content);
     }
 

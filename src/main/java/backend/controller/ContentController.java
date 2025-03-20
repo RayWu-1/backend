@@ -9,6 +9,7 @@ import backend.dto.AudioDto;
 import backend.dto.ContentDto;
 import backend.dto.ImageDto;
 import backend.dto.ResponseDto;
+import backend.dto.UpdateTagsDto;
 import backend.dto.VideoDto;
 import backend.entity.AudioEntity;
 import backend.entity.ContentEntity;
@@ -114,6 +115,12 @@ public class ContentController {
 
         contentService.deleteTagFromContent(contentId, tagId);
 
+        return ResponseDto.success();
+    }
+
+    @PutMapping("/{contentId}/tags")
+    public ResponseDto<Void> updateTagsForContent(@PathVariable Long contentId, @RequestBody UpdateTagsDto request) {
+        contentService.updateTagsForContent(contentId, request.getTagIds());
         return ResponseDto.success();
     }
 
