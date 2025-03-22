@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import backend.entity.ContentEntity;
 import backend.entity.TagEntity;
 import backend.exception.BusinessException;
 import backend.exception.ExceptionEnum;
+import backend.repository.ContentRepository;
 import backend.repository.TagRepository;
 import backend.service.TagService;
 
@@ -16,6 +18,9 @@ public class TagServiceImpl implements TagService {
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private ContentRepository contentRepository;
 
     @Override
     public List<TagEntity> getAllTags() {
@@ -34,6 +39,13 @@ public class TagServiceImpl implements TagService {
     public void deleteTag(Long id) {
         TagEntity tag = tagRepository.findById(id)
             .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND));
+        
+        // Check if the tag is associated with any content
+        List<ContentEntity> contents = contentRepository.findByTags_Id(id);
+        if (!contents.isEmpty()) {
+            throw new BusinessException(ExceptionEnum.TAG_IN_USE);
+        }
+
         tagRepository.delete(tag);
     }
 

@@ -13,7 +13,9 @@ public enum ExceptionEnum {
     WRONG_PASSWORD(2002, "Wrong password"),
     CONTENT_NOT_FOUND(2003, "Content not found"),
     IS_NOT_PUBLISHED(2004, "Content is not published"),
-    TAG_NOT_FOUND(2005, "Tag not found");
+    TAG_NOT_FOUND(2005, "Tag not found"),
+    TAG_IN_USE(2006, "Tag is in use and cannot be deleted"),
+    TAG_NAME_ALREADY_EXISTS(2007, "Tag of the same name already exists, consider merge the tags");
 
     private final Integer code;
     private final String message;
