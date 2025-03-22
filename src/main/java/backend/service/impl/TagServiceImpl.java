@@ -31,6 +31,11 @@ public class TagServiceImpl implements TagService {
     public TagEntity renameTag(Long tagId, String newName) {
         TagEntity tag = tagRepository.findById(tagId)
                 .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND));
+
+        if (tagRepository.existsByName(newName)) {
+            throw new BusinessException(ExceptionEnum.TAG_NAME_ALREADY_EXISTS);
+        }
+
         tag.setName(newName);
         return tagRepository.save(tag);
     }
@@ -38,8 +43,8 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTag(Long id) {
         TagEntity tag = tagRepository.findById(id)
-            .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND));
-        
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND));
+
         // Check if the tag is associated with any content
         List<ContentEntity> contents = contentRepository.findByTags_Id(id);
         if (!contents.isEmpty()) {
