@@ -3,6 +3,7 @@ package backend.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.dto.MergeTagDto;
 import backend.dto.RenameTagDto;
 import backend.dto.ResponseDto;
 import backend.entity.TagEntity;
@@ -41,6 +42,24 @@ public class TagController {
             throw new BusinessException(ExceptionEnum.ILLEGAL_PARAMETERS);
         }
         return ResponseDto.success(tagService.renameTag(id, newName));
+    }
+
+    @PutMapping("/merge")
+    public ResponseDto<Void> mergeTag(@RequestBody MergeTagDto request) {
+        Long targetTagId = request.getTargetTagId();
+        Long sourceTagId = request.getSourceTagId();
+
+        if (targetTagId == null || sourceTagId == null) {
+            throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
+        }
+
+        if (targetTagId.equals(sourceTagId)) {
+            throw new BusinessException(ExceptionEnum.ILLEGAL_PARAMETERS);
+        }
+
+        tagService.mergeTag(targetTagId, sourceTagId);
+
+        return ResponseDto.success();
     }
 
     @DeleteMapping("/{id}")

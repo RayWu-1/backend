@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import backend.entity.ContentEntity;
 import backend.entity.TagEntity;
@@ -38,6 +39,26 @@ public class TagServiceImpl implements TagService {
 
         tag.setName(newName);
         return tagRepository.save(tag);
+    }
+
+    @Override
+    @Transactional
+    public void mergeTag(Long targetTagId, Long sourceTagId) {
+        TagEntity targetTag = tagRepository.findById(targetTagId)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND));
+        TagEntity sourceTag = tagRepository.findById(sourceTagId)
+                .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND));
+
+        // Update all content references from sourceTag to targetTag
+        List<ContentEntity> contents = contentRepository.findByTags_Id(sourceTagId);
+        for (ContentEntity content : contents) {
+            content.getTags().remove(sourceTag);
+            content.getTags().add(targetTag);
+            contentRepository.save(content);
+        }
+
+        // Delete the source tag
+        tagRepository.delete(sourceTag);
     }
 
     @Override
