@@ -30,4 +30,11 @@ public class TagServiceImpl implements TagService {
         return tagRepository.save(tag);
     }
 
+    @Override
+    public void deleteTag(Long id) {
+        TagEntity tag = tagRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(ExceptionEnum.TAG_NOT_FOUND));
+        tagRepository.delete(tag);
+    }
+
 }
