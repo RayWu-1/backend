@@ -3,6 +3,7 @@ package backend.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.dto.RenameTagDto;
 import backend.dto.ResponseDto;
 import backend.entity.TagEntity;
 import backend.exception.BusinessException;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.util.StringUtils;
 
 @RestController
 @RequestMapping("/tags")
@@ -29,10 +32,13 @@ public class TagController {
     }
 
     @PutMapping("/{id}/rename")
-    public ResponseDto<TagEntity> renameTag(@PathVariable Long id, String newName) {
-        // path variable is never null
+    public ResponseDto<TagEntity> renameTag(@PathVariable Long id, @RequestBody RenameTagDto request) {
+        String newName = request.getNewName();
         if (newName == null) {
             throw new BusinessException(ExceptionEnum.MISSING_PARAMETERS);
+        }
+        if (!StringUtils.hasText(newName)) {
+            throw new BusinessException(ExceptionEnum.ILLEGAL_PARAMETERS);
         }
         return ResponseDto.success(tagService.renameTag(id, newName));
     }
