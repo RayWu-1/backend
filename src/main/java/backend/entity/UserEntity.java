@@ -22,10 +22,15 @@ public class UserEntity {
     @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
+    private String username;
+
+    @Column(unique = true)
     private String password;
 
-    public UserEntity(String email, String password) {
-        this.email = email;
+    public UserEntity(String email, String password, String username) {
         this.password = password;
+        this.email = email;
+        this.username = username;
     }
 }
