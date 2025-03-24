@@ -13,6 +13,6 @@ import org.springframework.data.repository.query.Param;
 public interface ContentRepository extends JpaRepository<ContentEntity, Long> {
     List<ContentEntity> findByTags_Id(Long id);
 
-    @Query("SELECT c FROM ContentEntity c JOIN c.createdBy u WHERE u.email = :username")
+    @Query("SELECT c FROM ContentEntity c JOIN c.createdBy u WHERE u.username = :username")
     Page<ContentEntity> findByCreatedByUsername(@Param("username") String username, Pageable pageable);
 }
