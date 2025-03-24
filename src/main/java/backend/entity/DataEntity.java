@@ -1,5 +1,7 @@
 package backend.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,27 +12,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users")
+@Table(name = "datas")
 @Data
 @NoArgsConstructor
-public class UserEntity {
+public class DataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-    @Column(unique = true)
-    private String email;
+    private long visit;
 
-    @Column(unique = true)
-    private String username;
+    private LocalDate date;
 
-    @Column(unique = true)
-    private String password;
+    public DataEntity(long visit, LocalDate date) {
+        this.visit = visit;
+        this.date = date;
+    }
 
-    public UserEntity(String email, String password, String username) {
-        this.password = password;
-        this.email = email;
-        this.username = username;
+    public DataEntity(LocalDate date) {
+        this.date = date;
     }
 }
