@@ -2,9 +2,9 @@ spring:
   application:
     name: project-backend
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: root
+    url: jdbc:postgresql://49.51.207.171:5432/postgres
+    username: nekro_agent
+    password: nekro_agent
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:

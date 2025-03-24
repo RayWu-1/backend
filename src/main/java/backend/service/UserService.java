@@ -1,9 +1,13 @@
 package backend.service;
 
+import java.util.List;
+
+import backend.dto.LoginDto;
+import backend.entity.GuestEntity;
 import backend.entity.UserEntity;
 
 public interface UserService {
 
-    UserEntity login(String email, String password);
-
+    String login(LoginDto login);
+    List<GuestEntity> userDetails();
 }

@@ -10,22 +10,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users")
+@Table(name = "guests")
 @Data
 @NoArgsConstructor
-public class UserEntity {
+public class GuestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     @Column(unique = true)
     private String email;
 
     private String password;
-
-    public UserEntity(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+    private String details;
 }
