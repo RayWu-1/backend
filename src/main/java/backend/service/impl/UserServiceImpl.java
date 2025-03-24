@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new BusinessException(ExceptionEnum.USER_NOT_FOUND);
         }
+
     }
 
     @Override
