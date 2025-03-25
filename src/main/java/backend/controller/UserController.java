@@ -10,13 +10,8 @@ import backend.service.UserService;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 // import org.apache.catalina.connector.Request;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import backend.exception.BusinessException;
 import backend.exception.ExceptionEnum;
 import backend.service.UserService;
@@ -49,12 +44,12 @@ public class UserController {
         return ResponseDto.success(userService.userDetails());
     }
 
-    @GetMapping("/contents/by-user")
-    public ResponseEntity<Page<ContentEntity>> getAllByUser(
-            @RequestParam(value = "username") String username,
+    @GetMapping("/contents/by-user/{username}")
+    public ResponseDto<Page<ContentEntity>> getAllByUser(
+            @PathVariable String username,
             @PageableDefault(size = 10, page = 0) Pageable pageable) {
         Page<ContentEntity> contents = userService.getAllByUser(pageable, username);
-        return ResponseEntity.ok(contents);
+        return ResponseDto.success(contents);
     }
 
 }
