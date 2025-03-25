@@ -64,7 +64,10 @@ public class UserServiceImpl implements UserService {
             return contentRepository.findByCreatedByUsername(username, pageable);
         } catch (EmptyResultDataAccessException e) {
             throw new BusinessException(ExceptionEnum.CONTENT_NOT_FOUND);
+        } catch (Exception e) {
+            throw new BusinessException(ExceptionEnum.USER_NOT_FOUND);
         }
+
     }
 
     @Override
