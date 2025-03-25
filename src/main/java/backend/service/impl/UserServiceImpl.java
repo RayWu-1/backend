@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ContentRepository contentRepository;
+    @Autowired
     private GuestRepository guestRepository;
     @Autowired
     private JwtService jwtService;
@@ -72,6 +73,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long getNumberOfCreators() {
-        return userRepository.count();
+        return guestRepository.count();
     }
 }

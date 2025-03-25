@@ -83,14 +83,14 @@ public class ContentController {
         }
     }
 
-    @PatchMapping("/{id}/delete")
-    public ResponseDto<Void> deleteContent(@PathVariable Long id) {
-        ContentEntity content = contentRepository.findById(id).orElseThrow(() -> new BusinessException(ExceptionEnum.CONTENT_NOT_FOUND));
+    @PatchMapping("/{contentId}/delete")
+    public ResponseDto<Void> deleteContent(@PathVariable Long contentId) {
+        ContentEntity content = contentRepository.findById(contentId).orElseThrow(() -> new BusinessException(ExceptionEnum.CONTENT_NOT_FOUND));
         if(content.getStatus() == ContentStatus.PUBLISHED) {
-            contentService.deleteContent(id);
+            contentService.deleteContent(contentId);
             return ResponseDto.success();
         }
-        throw new RuntimeException(ExceptionEnum.IS_NOT_PUBLISHED.getMessage());
+        throw new RuntimeException(new BusinessException(ExceptionEnum.IS_NOT_PUBLISHED));
     }
 
     @PostMapping("/{contentId}/tags")

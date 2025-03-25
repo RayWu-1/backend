@@ -44,9 +44,9 @@ public class UserController {
         return ResponseDto.success(userService.userDetails());
     }
 
-    @GetMapping("/contents/by-user/{username}")
+    @GetMapping("/all-by-user")
     public ResponseDto<Page<ContentEntity>> getAllByUser(
-            @PathVariable String username,
+            @RequestParam String username,
             @PageableDefault(size = 10, page = 0) Pageable pageable) {
         Page<ContentEntity> contents = userService.getAllByUser(pageable, username);
         return ResponseDto.success(contents);
