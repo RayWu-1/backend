@@ -17,4 +17,6 @@ public interface ContentService {
     void deleteTagFromContent(Long contentId, Long tagId);
     
     void updateTagsForContent(Long contentId, Set<Long> tagIds);
+
+    Page<ContentEntity> search(String query, Pageable pageable);
 }

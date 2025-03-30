@@ -77,5 +77,9 @@ public class ContentServiceImpl implements ContentService {
         content.setTags(tags);
         contentRepository.save(content);
     }
+    @Override
+    public Page<ContentEntity> search(String query, Pageable pageable) {
+        return contentRepository.search(query, pageable);
+    }
 
 }

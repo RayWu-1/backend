@@ -123,4 +123,13 @@ public class ContentController {
         return ResponseDto.success();
     }
 
+    @GetMapping("/search/{query}")
+    public ResponseDto<Page<ContentEntity>> search(@PathVariable String query, @RequestParam String page, @RequestParam String size) {
+        int pageNumber = Integer.parseInt(page);
+        int pageSize = Integer.parseInt(size);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<ContentEntity> results = contentService.search(query, pageable);
+        return ResponseDto.success(results);
+    }
+
 }

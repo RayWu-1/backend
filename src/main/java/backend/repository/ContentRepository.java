@@ -15,4 +15,7 @@ public interface ContentRepository extends JpaRepository<ContentEntity, Long> {
 
     @Query("SELECT c FROM ContentEntity c JOIN c.createdBy u WHERE u.username = :username")
     Page<ContentEntity> findByCreatedByUsername(@Param("username") String username, Pageable pageable);
+
+    @Query("SELECT c FROM ContentEntity c WHERE LOWER(c.title) LIKE LOWER(CONCAT('%', :query, '%'))")
+    Page<ContentEntity> search(@Param("query") String query, Pageable pageable);
 }
