@@ -1,5 +1,7 @@
 package backend.service.impl;
 
+import java.lang.StackWalker.Option;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,7 +21,7 @@ import backend.exception.ExceptionEnum;
 @Service
 public class ContentServiceImpl implements ContentService {
 
-    @Autowired
+    @Autowired      
     private ContentRepository contentRepository;
 
     @Autowired
@@ -27,7 +29,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public Page<ContentEntity> getContentList(Pageable pageable) {
-        return contentRepository.findAll(pageable);
+        return contentRepository.findAllByOrderByIdAsc(pageable);
     }
 
     @Override
@@ -82,4 +84,14 @@ public class ContentServiceImpl implements ContentService {
         return contentRepository.search(query, pageable);
     }
 
+    @Override
+    public void updateContent(Long contentId, Integer rate) {
+        Optional<ContentEntity> target = contentRepository.findById(contentId);
+        if(!target.isPresent()) throw new BusinessException(ExceptionEnum.CONTENT_NOT_FOUND);
+        else {
+            ContentEntity a = target.get();
+            a.setRate(rate);
+            contentRepository.save(a);
+        }
+    }
 }

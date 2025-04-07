@@ -10,6 +10,7 @@ public record ContentDto(
         Long id,
         String title,
         String body,
+        Integer rate,
         LocalDateTime createdAt,
         Integer authorId,
         Set<TagEntity> tags,

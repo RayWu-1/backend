@@ -19,4 +19,6 @@ public interface ContentService {
     void updateTagsForContent(Long contentId, Set<Long> tagIds);
 
     Page<ContentEntity> search(String query, Pageable pageable);
+
+    void updateContent(Long contentId, Integer rate);
 }

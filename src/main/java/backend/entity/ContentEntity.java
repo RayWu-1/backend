@@ -23,6 +23,9 @@ public class ContentEntity {
     @Column(nullable = false)
     private String body;
 
+    @Column(nullable = true )
+    private Integer rate;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

@@ -9,6 +9,7 @@ import backend.dto.AudioDto;
 import backend.dto.ContentDto;
 import backend.dto.ImageDto;
 import backend.dto.ResponseDto;
+import backend.dto.UpdateDto;
 import backend.dto.UpdateTagsDto;
 import backend.dto.VideoDto;
 import backend.entity.AudioEntity;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -66,6 +68,7 @@ public class ContentController {
                         contentEntity.getId(),
                         contentEntity.getTitle(),
                         contentEntity.getBody(),
+                        contentEntity.getRate(),
                         contentEntity.getCreatedAt(),
                         contentEntity.getCreatedBy().getId(),
                         contentEntity.getTags(),
@@ -130,6 +133,12 @@ public class ContentController {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<ContentEntity> results = contentService.search(query, pageable);
         return ResponseDto.success(results);
+    }
+
+    @PostMapping("/update")
+    public ResponseDto<Void> update(@RequestBody UpdateDto updatedto) {
+        contentService.updateContent(updatedto.getId(), updatedto.getRate());
+        return ResponseDto.success();   
     }
 
 }
