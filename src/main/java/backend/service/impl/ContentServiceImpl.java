@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import backend.entity.ContentEntity;
 import backend.entity.TagEntity;
@@ -26,8 +27,9 @@ public class ContentServiceImpl implements ContentService {
     private TagRepository tagRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ContentEntity> getContentList(Pageable pageable) {
-        return contentRepository.findAll(pageable);
+        return contentRepository.findAllWithAssociations(pageable);
     }
 
     @Override
@@ -77,6 +79,7 @@ public class ContentServiceImpl implements ContentService {
         content.setTags(tags);
         contentRepository.save(content);
     }
+
     @Override
     public Page<ContentEntity> search(String query, Pageable pageable) {
         return contentRepository.search(query, pageable);
