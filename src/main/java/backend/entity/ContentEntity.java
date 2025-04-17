@@ -8,10 +8,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import backend.entity.enums.ContentStatus;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name = "contents")
+@EqualsAndHashCode(exclude = { "images", "audio", "video", "tags" })
 public class ContentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,14 +39,14 @@ public class ContentEntity {
 
     ContentStatus status;
 
-    @OneToMany(mappedBy = "content")
+    @OneToMany(mappedBy = "content", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     Set<ImageEntity> images;
 
     @OneToOne(mappedBy = "content")
     AudioEntity audio;
 
     @OneToOne(mappedBy = "content")
-    VideoEntity video; 
+    VideoEntity video;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;

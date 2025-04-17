@@ -16,5 +16,7 @@ public class FileEntity {
     private Long id;
     private Integer size;
     private String contentType;
+    private String originalFilename;
+    private String storedFilename;
     private String path;
 }
